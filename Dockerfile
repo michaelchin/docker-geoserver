@@ -67,7 +67,7 @@ EXPOSE  $HTTPS_PORT
 
 
 USER ${GEOSERVER_UID}
-RUN echo 'figlet -t "Kartoza Docker GeoServer"' >> ~/.bashrc
+RUN echo 'figlet -t "GPlates GeoServer"' >> ~/.bashrc
 
 WORKDIR ${GEOSERVER_HOME}
 
