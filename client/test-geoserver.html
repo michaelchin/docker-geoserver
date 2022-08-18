@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css"
+      type="text/css"
+    />
+    <style>
+      .map {
+        height: 800px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>My Map</h2>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+      var untiled = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          ratio: 1,
+          url: "https://geosrv.earthbyte.org/geoserver/Lithodat/wms",
+          params: {
+            FORMAT: "image/png",
+            VERSION: "1.1.1",
+            STYLES: "",
+            LAYERS: "Lithodat:continental_polygons_100Ma",
+            exceptions: "application/vnd.ogc.se_inimage",
+          },
+        }),
+      });
+
+      var tiled = new ol.layer.Tile({
+        visible: true,
+        source: new ol.source.TileWMS({
+          url: "https://geosrv.earthbyte.org/geoserver/paleo_topo/wms",
+          params: {
+            FORMAT: "image/png",
+            VERSION: "1.1.1",
+            tiled: true,
+            STYLES: "paleo-topo",
+            LAYERS: "paleo_topo:paleotopo_100_Ma",
+            exceptions: "application/vnd.ogc.se_inimage",
+            tilesOrigin: -180 + "," + -90,
+          },
+        }),
+      });
+
+      var map = new ol.Map({
+        target: "map",
+        layers: [tiled],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: ol.proj.fromLonLat([0, 0]),
+          zoom: 0,
+        }),
+      });
+    </script>
+  </body>
+</html>
